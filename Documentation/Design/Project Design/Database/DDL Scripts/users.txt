@@ -1,0 +1,142 @@
+{
+  "fields": [
+    {
+      "name": "_id",
+      "path": "_id",
+      "count": 2,
+      "types": [
+        {
+          "name": "ObjectID",
+          "bsonType": "ObjectID",
+          "path": "_id",
+          "count": 2,
+          "values": [
+            "5fbcbea32abeba21fc25255d",
+            "5fbe00f81c780445fd67f296"
+          ],
+          "total_count": 0,
+          "probability": 1,
+          "unique": 2,
+          "has_duplicates": false
+        }
+      ],
+      "total_count": 2,
+      "type": "ObjectID",
+      "has_duplicates": false,
+      "probability": 1
+    },
+    {
+      "name": "_class",
+      "path": "_class",
+      "count": 1,
+      "types": [
+        {
+          "name": "String",
+          "bsonType": "String",
+          "path": "_class",
+          "count": 1,
+          "values": [
+            "com.gcu.verticalpoc.data.entity.UserEntity"
+          ],
+          "total_count": 0,
+          "probability": 0.5,
+          "unique": 1,
+          "has_duplicates": false
+        },
+        {
+          "name": "Undefined",
+          "type": "Undefined",
+          "path": "_class",
+          "count": 1,
+          "total_count": 0,
+          "probability": 0.5,
+          "unique": 1,
+          "has_duplicates": false
+        }
+      ],
+      "total_count": 2,
+      "type": [
+        "String",
+        "Undefined"
+      ],
+      "has_duplicates": false,
+      "probability": 0.5
+    },
+    {
+      "name": "email",
+      "path": "email",
+      "count": 2,
+      "types": [
+        {
+          "name": "String",
+          "bsonType": "String",
+          "path": "email",
+          "count": 2,
+          "values": [
+            "tester@test.test",
+            "test@test.test"
+          ],
+          "total_count": 0,
+          "probability": 1,
+          "unique": 2,
+          "has_duplicates": false
+        }
+      ],
+      "total_count": 2,
+      "type": "String",
+      "has_duplicates": false,
+      "probability": 1
+    },
+    {
+      "name": "password",
+      "path": "password",
+      "count": 2,
+      "types": [
+        {
+          "name": "String",
+          "bsonType": "String",
+          "path": "password",
+          "count": 2,
+          "values": [
+            "testing",
+            "test"
+          ],
+          "total_count": 0,
+          "probability": 1,
+          "unique": 2,
+          "has_duplicates": false
+        }
+      ],
+      "total_count": 2,
+      "type": "String",
+      "has_duplicates": false,
+      "probability": 1
+    },
+    {
+      "name": "username",
+      "path": "username",
+      "count": 2,
+      "types": [
+        {
+          "name": "String",
+          "bsonType": "String",
+          "path": "username",
+          "count": 2,
+          "values": [
+            "tester",
+            "test"
+          ],
+          "total_count": 0,
+          "probability": 1,
+          "unique": 2,
+          "has_duplicates": false
+        }
+      ],
+      "total_count": 2,
+      "type": "String",
+      "has_duplicates": false,
+      "probability": 1
+    }
+  ],
+  "count": 2
+}
