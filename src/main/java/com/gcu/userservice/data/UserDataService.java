@@ -5,6 +5,8 @@ import com.gcu.userservice.data.repository.UsersRepository;
 import com.gcu.userservice.utility.DatabaseException;
 import com.gcu.userservice.utility.NotSupportedException;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -40,10 +42,10 @@ public class UserDataService implements DataAccessInterface<UserEntity> {
     }
 
     @Override
-    public UserEntity findBy(UserEntity userEntity) {
+    public Optional<UserEntity> findBy(UserEntity userEntity) {
         try{
             //Try and find a user by their username and password to authenticate their login credentials
-            return usersRepository.getUserEntityByUsernameAndPassword(userEntity.getUsername(), userEntity.getPassword());
+            return Optional.ofNullable(usersRepository.getUserEntityByUsernameAndPassword(userEntity.getUsername(), userEntity.getPassword()));
         } catch (Exception e){
             //Throw a database exception in the event of an error
             throw new DatabaseException();
@@ -51,12 +53,13 @@ public class UserDataService implements DataAccessInterface<UserEntity> {
     }
 
     @Override
-    public UserEntity findByString(String search) {
+    public Optional<UserEntity> findByString(String search) {
         try {
             //Try and find a user by their username or email for the purpose of letting another user start a conversation with them
-            return usersRepository.getUserEntityByUsernameOrEmail(search, search);
+            return Optional.ofNullable(usersRepository.getUserEntityByUsernameOrEmail(search, search));
         } catch (Exception e){
             //Throw a database exception in the event of an error
+            System.out.println(Arrays.toString(e.getStackTrace()));
             throw new DatabaseException();
         }
     }

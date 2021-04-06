@@ -1,8 +1,12 @@
 package com.gcu.userservice.model;
 
+import javax.validation.constraints.NotBlank;
+
 public class CredentialsModel {
 
+    @NotBlank
     private String username;
+    @NotBlank
     private String password;
 
     public CredentialsModel() {

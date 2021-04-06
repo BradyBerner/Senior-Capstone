@@ -1,6 +1,7 @@
 package com.gcu.userservice.service;
 
 import com.gcu.userservice.business.UserBusinessInterface;
+import com.gcu.userservice.model.CredentialsModel;
 import com.gcu.userservice.model.UserModel;
 import com.gcu.userservice.utility.DuplicateUserException;
 import com.gcu.userservice.utility.ItemNotFoundException;
@@ -9,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import javax.validation.Valid;
 
 @RestController
 @RequestMapping("/userservice")
@@ -46,11 +48,12 @@ public class UsersRestService {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/login", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> login(@RequestBody UserModel user){
+    public ResponseEntity<?> login(@RequestBody CredentialsModel credentials){
         try{
             //Try and verify a user's credentials and return the user's complete UserModel along with HTTP Status 200 if successful
-            return new ResponseEntity<>(userService.authenticate(user), HttpStatus.OK);
+            return new ResponseEntity<>(userService.authenticate(new UserModel("", "", credentials.getUsername(), credentials.getPassword())), HttpStatus.OK);
         } catch (ItemNotFoundException e){
             //Return HTTP Status of 204 if no user was found with the credentials entered
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -60,8 +63,9 @@ public class UsersRestService {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/register", produces = {MediaType.APPLICATION_JSON_VALUE})
-    public ResponseEntity<?> register(@RequestBody UserModel user){
+    public ResponseEntity<?> register(@Valid @RequestBody UserModel user){
         try {
             //Try and register a new user with the information contained in the UserModel passed in and return the user's user model with their new ID and an HTTP Status of 200 if successful
             return new ResponseEntity<>(userService.register(user), HttpStatus.OK);

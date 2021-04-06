@@ -30,14 +30,14 @@ public interface DataAccessInterface<T>{
      * @param t An object to be searched for in the database
      * @return T The same object if found, a default object if not found
      */
-    public T findBy(T t);
+    public Optional<T> findBy(T t);
 
     /**
      * Returns an object back to the business service if that object is found using a certain string
      * @param search A String search used to find a relevant object
      * @return T The object found with this search
      */
-    public T findByString(String search);
+    public Optional<T> findByString(String search);
 
     /**
      * A method to create an object in the database

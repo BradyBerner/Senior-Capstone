@@ -1,11 +1,15 @@
 package com.gcu.userservice.model;
 
 import com.gcu.userservice.data.entity.UserEntity;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 public class UserModel {
 
     private String ID;
+    @NotBlank
     private String email;
+    @Valid
     private CredentialsModel credentials;
 
     public UserModel(){
@@ -24,6 +28,7 @@ public class UserModel {
         ID = user.getId();
         email = user.getEmail();
         credentials = new CredentialsModel(user.getUsername(), user.getPassword());
+
     }
 
     public String getID() {

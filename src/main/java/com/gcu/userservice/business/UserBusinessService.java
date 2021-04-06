@@ -6,7 +6,6 @@ import com.gcu.userservice.model.UserModel;
 import com.gcu.userservice.utility.DuplicateUserException;
 import com.gcu.userservice.utility.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -23,7 +22,7 @@ public class UserBusinessService implements UserBusinessInterface<UserModel> {
     @Override
     public boolean register(UserModel user) {
         //Check that there's no user with that username already in the database
-        if(userService.findByString(user.getCredentials().getUsername()) != null) {
+        if(userService.findByString(user.getCredentials().getUsername()).isPresent()) {
             throw new DuplicateUserException();
         }
 
@@ -34,12 +33,12 @@ public class UserBusinessService implements UserBusinessInterface<UserModel> {
     @Override
     public UserModel authenticate(UserModel user) {
         //Try and get the UserModel for a user if they used the correct login credentials
-        UserEntity result = userService.findBy(user.toEntity());
+        Optional<UserEntity> result = userService.findBy(user.toEntity());
 
         //Check if there was a user with matching credentials
-        if(result != null){
+        if(result.isPresent()){
             //Return the user's complete UserModel if successfully logged in
-            return new UserModel(result);
+            return new UserModel(result.get());
         } else {
             //Throw exception if there was no user with a matching username and password
             throw new ItemNotFoundException();
