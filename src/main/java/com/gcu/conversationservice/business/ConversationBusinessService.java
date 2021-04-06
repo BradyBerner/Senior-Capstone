@@ -11,7 +11,8 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.client.RestTemplate;
-
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 public class ConversationBusinessService implements ConversationBusinessInterface<ConversationModel> {
@@ -23,6 +24,23 @@ public class ConversationBusinessService implements ConversationBusinessInterfac
     @Autowired
     public void setConversationDataService(DataAccessInterface<ConversationEntity> conversationService){
         this.conversationService = conversationService;
+    }
+
+    @Override
+    public ArrayList<ConversationModel> findAll(){
+        List<ConversationEntity> results = conversationService.findAll();
+
+        if(results.size() != 0){
+            ArrayList<ConversationModel> returnVal = new ArrayList<>();
+
+            for(ConversationEntity conversation : results){
+                returnVal.add(new ConversationModel(conversation));
+            }
+
+            return returnVal;
+        } else {
+            throw new ItemNotFoundException();
+        }
     }
 
     @Override
@@ -45,17 +63,7 @@ public class ConversationBusinessService implements ConversationBusinessInterfac
         //Check if the IDs for the users that will be members of the conversation are valid user IDs
         if(checkUserID(conversation.getUser1()) && checkUserID(conversation.getUser2())) {
             //Attempt to create a new conversation record in the database
-            ConversationEntity result = conversationService.create(conversation.toEntity());
-
-            //Check if the ConversationModel returned was assigned an ID by the database i.e. if it was successful
-            //TODO this is giving a false error
-            if(!result.getId().equals("")){
-                //Return the complete ConversationModel in the event that a record was successfully created
-                return new ConversationModel(result);
-            } else {
-                //Throw a new database exception in the event of an error
-                throw new DatabaseException();
-            }
+            return new ConversationModel(conversationService.create(conversation.toEntity()).orElseThrow(DatabaseException::new));
         } else {
             //Throw an item not found exception in the event that one or both of the user IDs are not valid
             throw new ItemNotFoundException();

@@ -20,6 +20,19 @@ public class ConversationRestService {
         this.conversationService = conversationService;
     }
 
+    @CrossOrigin
+    @GetMapping(path = "/", produces = {MediaType.APPLICATION_JSON_VALUE})
+    public ResponseEntity<?> getAllConversations(){
+        try{
+            return new ResponseEntity<>(conversationService.findAll(), HttpStatus.OK);
+        } catch (ItemNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
     @PostMapping(path = "/getConversation", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> getConversation(@RequestBody ConversationModel conversation){
         try{
@@ -34,6 +47,7 @@ public class ConversationRestService {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/create", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> create(@RequestBody ConversationModel conversation){
         try{
@@ -48,6 +62,7 @@ public class ConversationRestService {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/leave", produces = {MediaType.APPLICATION_JSON_VALUE})
     public ResponseEntity<?> leave(@RequestBody ConversationModel conversation){
         try{

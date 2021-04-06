@@ -4,12 +4,23 @@ import com.gcu.conversationservice.data.entity.ConversationEntity;
 import com.gcu.conversationservice.data.repository.ConversationRepository;
 import com.gcu.conversationservice.utility.DatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.List;
 import java.util.Optional;
 
 public class ConversationDataService implements DataAccessInterface<ConversationEntity>{
 
     @Autowired
     private ConversationRepository conversationRepository;
+
+    @Override
+    public List<ConversationEntity> findAll() {
+        try{
+            return conversationRepository.findAll();
+        } catch (Exception e){
+            throw new DatabaseException();
+        }
+    }
 
     public Optional<ConversationEntity> findByID(ConversationEntity conversationEntity){
         try {
@@ -21,10 +32,10 @@ public class ConversationDataService implements DataAccessInterface<Conversation
         }
     }
 
-    public ConversationEntity create(ConversationEntity conversationEntity) {
+    public Optional<ConversationEntity> create(ConversationEntity conversationEntity) {
         try{
             //Try create a new conversation record in the database
-            return conversationRepository.insert(conversationEntity);
+            return Optional.of(conversationRepository.insert(conversationEntity));
         } catch (Exception e){
             //Throw a database exception if an error occurs
             throw new DatabaseException();
