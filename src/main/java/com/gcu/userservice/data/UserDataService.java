@@ -5,11 +5,13 @@ import com.gcu.userservice.data.repository.UsersRepository;
 import com.gcu.userservice.utility.DatabaseException;
 import com.gcu.userservice.utility.NotSupportedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+@Service("userDataService")
 public class UserDataService implements DataAccessInterface<UserEntity> {
 
     @Autowired

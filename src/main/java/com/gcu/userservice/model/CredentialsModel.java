@@ -1,8 +1,9 @@
 package com.gcu.userservice.model;
 
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
-public class CredentialsModel {
+public class CredentialsModel implements Serializable {
 
     @NotBlank
     private String username;

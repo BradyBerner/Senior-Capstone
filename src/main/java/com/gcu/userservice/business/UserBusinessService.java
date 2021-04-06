@@ -6,10 +6,13 @@ import com.gcu.userservice.model.UserModel;
 import com.gcu.userservice.utility.DuplicateUserException;
 import com.gcu.userservice.utility.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+@Service("userBusinessService")
 public class UserBusinessService implements UserBusinessInterface<UserModel> {
 
     private DataAccessInterface<UserEntity> userService;

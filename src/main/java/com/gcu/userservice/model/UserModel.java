@@ -3,8 +3,9 @@ package com.gcu.userservice.model;
 import com.gcu.userservice.data.entity.UserEntity;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.io.Serializable;
 
-public class UserModel {
+public class UserModel implements Serializable {
 
     private String ID;
     @NotBlank
