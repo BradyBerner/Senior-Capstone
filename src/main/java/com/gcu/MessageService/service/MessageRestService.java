@@ -8,10 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/messageservice")
@@ -24,6 +21,19 @@ public class MessageRestService {
         this.messageService = messageService;
     }
 
+    @CrossOrigin
+    @GetMapping(path = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<?> getAll(){
+        try{
+            return new ResponseEntity<>(messageService.getAll(), HttpStatus.OK);
+        } catch (ItemNotFoundException e){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        } catch (Exception e){
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    @CrossOrigin
     @PostMapping(path = "/view", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> view(@RequestBody ConversationModel conversation){
         try{
@@ -38,13 +48,13 @@ public class MessageRestService {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/send", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> send(@RequestBody MessageModel message){
         try{
             //Try and create a new message record and return the complete MessageModel along with a HTTP status code of 200 if successful
             return new ResponseEntity<>(messageService.send(message), HttpStatus.OK);
         } catch (IllegalArgumentException e){
-            //TODO implement data validation
             //Return a HTTP status code of 406 if the message sent is not valid
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception e){
@@ -53,13 +63,13 @@ public class MessageRestService {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/edit", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> edit(@RequestBody MessageModel message){
         try{
             //Try and update an existing message and return the updated MessageModel and a HTTP status code of 200 if successful
             return new ResponseEntity<>(messageService.edit(message), HttpStatus.OK);
         } catch (IllegalArgumentException e){
-            //TODO implement data validation
             //Return a HTTP status code of 406 if the message edited is not valid
             return new ResponseEntity<>(HttpStatus.NOT_ACCEPTABLE);
         } catch (Exception e){
@@ -68,6 +78,7 @@ public class MessageRestService {
         }
     }
 
+    @CrossOrigin
     @PostMapping(path = "/delete", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> delete(@RequestBody MessageModel message){
         try{

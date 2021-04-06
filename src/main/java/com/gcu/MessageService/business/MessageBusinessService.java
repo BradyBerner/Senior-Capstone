@@ -4,6 +4,7 @@ import com.gcu.MessageService.data.DataAccessInterface;
 import com.gcu.MessageService.data.entity.MessageEntity;
 import com.gcu.MessageService.model.ConversationModel;
 import com.gcu.MessageService.model.MessageModel;
+import com.gcu.MessageService.utility.DatabaseException;
 import com.gcu.MessageService.utility.ItemNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -16,12 +17,30 @@ import java.util.List;
 public class MessageBusinessService implements MessageBusinessInterface<MessageModel> {
 
     //TODO remove once service discovery is implemented
-    private final String conversationServiceIP = "127.0.0.1:8082/conversationservice";
+    private final String conversationServiceIP = "127.0.0.1:8081/conversationservice";
     private DataAccessInterface<MessageEntity> messageService;
 
     @Autowired
     public void setMessageDataService(DataAccessInterface<MessageEntity> messageService){
         this.messageService = messageService;
+    }
+
+    @Override
+    public List<MessageModel> getAll(){
+
+        List<MessageEntity> results = messageService.getAll();
+
+        if(!results.isEmpty()){
+            ArrayList<MessageModel> returnVal = new ArrayList<>();
+
+            for(MessageEntity message : results){
+                returnVal.add(new MessageModel(message));
+            }
+
+            return returnVal;
+        } else {
+            throw new ItemNotFoundException();
+        }
     }
 
     @Override
@@ -51,7 +70,7 @@ public class MessageBusinessService implements MessageBusinessInterface<MessageM
         //Check if the conversation the message is meant to be a part of exists
         if(checkConversationID(message.getConversationID())) {
             //Create the new message record in the database and return the complete MessageModel
-            return new MessageModel(messageService.create(message.toEntity()));
+            return new MessageModel(messageService.create(message.toEntity()).orElseThrow(DatabaseException::new));
         } else {
             //Throw an ItemNotFoundException in the event the conversation does not exist
             throw new ItemNotFoundException();
@@ -61,7 +80,7 @@ public class MessageBusinessService implements MessageBusinessInterface<MessageM
     @Override
     public MessageModel edit(MessageModel message) {
         //Attempt to update an existing database message record
-        return new MessageModel(messageService.update(message.toEntity()));
+        return new MessageModel(messageService.update(message.toEntity()).orElseThrow(DatabaseException::new));
     }
 
     @Override

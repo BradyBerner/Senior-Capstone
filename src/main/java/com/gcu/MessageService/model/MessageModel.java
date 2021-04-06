@@ -1,12 +1,14 @@
 package com.gcu.MessageService.model;
 
 import com.gcu.MessageService.data.entity.MessageEntity;
+import com.sun.istack.internal.NotNull;
 
 import java.io.Serializable;
 
 public class MessageModel implements Serializable {
 
     private String ID;
+    @NotNull
     private String message;
     private String timestamp;
     private String userID;

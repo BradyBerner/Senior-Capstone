@@ -5,11 +5,21 @@ import com.gcu.MessageService.data.repository.MessageRepository;
 import com.gcu.MessageService.utility.DatabaseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
+import java.util.Optional;
 
 public class MessageDataService implements DataAccessInterface<MessageEntity> {
 
     @Autowired
     private MessageRepository messageRepository;
+
+    @Override
+    public List<MessageEntity> getAll(){
+        try{
+            return messageRepository.findAll();
+        } catch (Exception e){
+            throw new DatabaseException();
+        }
+    }
 
     @Override
     public List<MessageEntity> findAll(String id) {
@@ -23,10 +33,10 @@ public class MessageDataService implements DataAccessInterface<MessageEntity> {
     }
 
     @Override
-    public MessageEntity create(MessageEntity messageEntity) {
+    public Optional<MessageEntity> create(MessageEntity messageEntity) {
         try {
             //Try and create a new message entry in the database
-            return messageRepository.insert(messageEntity);
+            return Optional.of(messageRepository.insert(messageEntity));
         } catch (Exception e){
             //Throw a database exception in the event an error occurs
             throw new DatabaseException();
@@ -34,10 +44,10 @@ public class MessageDataService implements DataAccessInterface<MessageEntity> {
     }
 
     @Override
-    public MessageEntity update(MessageEntity messageEntity) {
+    public Optional<MessageEntity> update(MessageEntity messageEntity) {
         try {
             //Try and update an existing database entry
-            return messageRepository.save(messageEntity);
+            return Optional.of(messageRepository.save(messageEntity));
         } catch (Exception e){
             //Throw a database exception in the event an error occurs
             throw new DatabaseException();

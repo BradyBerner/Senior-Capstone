@@ -5,6 +5,8 @@ import java.util.List;
 
 public interface MessageBusinessInterface<T> {
 
+    public List<T> getAll();
+
     public List<T> view(ConversationModel conversation);
 
     public T send(T message);
